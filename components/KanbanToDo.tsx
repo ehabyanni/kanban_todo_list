@@ -15,7 +15,7 @@ import DeleteConfirmModal from "./DeleteConfirmationModal";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
-export default function KanbanToDo() {
+export default function KanbanToDo({ searchTerm }: { searchTerm: string }) {
   const queryClient = useQueryClient();
   const [modalOpen, setModalOpen] = useState(false);
   const [activeColumn, setActiveColumn] = useState<string | null>(null);
@@ -64,60 +64,57 @@ export default function KanbanToDo() {
   });
 
   return (
-    <div className="w-full h-full">
-      <Box sx={{ p: 4 }}>
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Grid container spacing={3}>
-            {COLUMNS.map((col) => (
-              <Grid key={col.id} size={{ xs: 12, sm: 6, md: 3 }}>
-                <TaskColumn
-                  col={col}
-                  onAddTask={(id) => {
-                    setActiveColumn(id);
-                    setModalOpen(true);
-                  }}
-                  onEditTask={(task) => {
-                    setEditingTask(task);
-                    setModalOpen(true);
-                  }}
-                  onDeleteTask={(task) => {
-                    setTaskToDelete(task);
-                    setDeleteDialogOpen(true);
-                  }}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </DragDropContext>
+    <Box sx={{ p: 4 }}>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Grid container spacing={3}>
+          {COLUMNS.map((col) => (
+            <Grid key={col.id} size={{ xs: 12, sm: 6, md: 3 }}>
+              <TaskColumn
+                col={col}
+                searchTerm={searchTerm}
+                onAddTask={(id) => {
+                  setActiveColumn(id);
+                  setModalOpen(true);
+                }}
+                onEditTask={(task) => {
+                  setEditingTask(task);
+                  setModalOpen(true);
+                }}
+                onDeleteTask={(task) => {
+                  setTaskToDelete(task);
+                  setDeleteDialogOpen(true);
+                }}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </DragDropContext>
 
-        <TaskModal
-          open={modalOpen}
-          onClose={() => {
-            setModalOpen(false);
-            setEditingTask(null);
-          }}
-          onSave={(data) =>
-            editingTask
-              ? updateMutation.mutate({ ...editingTask, ...data })
-              : createMutation.mutate({
-                  ...data,
-                  column: activeColumn || "backlog",
-                })
-          }
-          initialData={editingTask}
-          isLoading={createMutation.isPending || updateMutation.isPending}
-        />
+      <TaskModal
+        open={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+          setEditingTask(null);
+        }}
+        onSave={(data) =>
+          editingTask
+            ? updateMutation.mutate({ ...editingTask, ...data })
+            : createMutation.mutate({
+                ...data,
+                column: activeColumn || "backlog",
+              })
+        }
+        initialData={editingTask}
+        isLoading={createMutation.isPending || updateMutation.isPending}
+      />
 
-        <DeleteConfirmModal
-          open={isDeleteDialogOpen}
-          onClose={() => setDeleteDialogOpen(false)}
-          onConfirm={() =>
-            taskToDelete && deleteMutation.mutate(taskToDelete.id)
-          }
-          isLoading={deleteMutation.isPending}
-          taskTitle={taskToDelete?.title}
-        />
-      </Box>
-    </div>
+      <DeleteConfirmModal
+        open={isDeleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+        onConfirm={() => taskToDelete && deleteMutation.mutate(taskToDelete.id)}
+        isLoading={deleteMutation.isPending}
+        taskTitle={taskToDelete?.title}
+      />
+    </Box>
   );
 }

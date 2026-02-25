@@ -16,14 +16,15 @@ import { TaskColumnProps } from "@/types/type";
 
 export default function TaskColumn({
   col,
+  searchTerm,
   onAddTask,
   onEditTask,
   onDeleteTask,
 }: TaskColumnProps) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery({
-      queryKey: ["tasks", col.id],
-      queryFn: ({ pageParam }) => getTasksByColumn(col.id, pageParam as number),
+      queryKey: ["tasks", col.id, searchTerm],
+      queryFn: ({ pageParam }) => getTasksByColumn(col.id, pageParam as number, searchTerm),
       initialPageParam: 1,
       getNextPageParam: (lastPage) => lastPage.nextPage,
     });
