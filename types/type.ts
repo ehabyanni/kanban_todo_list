@@ -21,6 +21,7 @@ export const COLUMNS = [
 
 export interface TaskColumnProps {
   col: { id: string; label: string; color: string };
+  searchTerm: string;
   onAddTask: (id: string) => void;
   onEditTask: (task: Task) => void;
   onDeleteTask: (task: Task) => void;
