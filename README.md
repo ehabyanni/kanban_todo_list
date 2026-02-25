@@ -30,21 +30,16 @@ Follow these steps to get the project up and running locally:
 
 ```bash
 ### 1. Clone the Repository
-
 git clone [https://github.com/ehabyanni/kanban_todo_list.git](https://github.com/ehabyanni/kanban_todo_list.git)
 cd kanban_todo_list
 
 ### 2. Install Dependencies
-
 npm install
 
 ### 3. Start the Mock Backend
-
 npx json-server --watch db.json --port 4000
 
 ### 4. Start the Development Server
-
-
 npm run dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 ```
