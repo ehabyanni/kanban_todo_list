@@ -46,7 +46,4 @@ npx json-server --watch db.json --port 4000
 ````bash
 npm run dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Deploy on Netlify
-[text](https://kanbanyanni.netlify.app/)
 `````
