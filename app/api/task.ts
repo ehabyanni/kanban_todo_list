@@ -1,4 +1,4 @@
-import { Task } from '@/types/type';
+import { Task, TaskPage } from '@/types/type';
 import axios from 'axios';
 
 const API_URL = 'http://localhost:4000/tasks';
@@ -6,11 +6,16 @@ const API_URL = 'http://localhost:4000/tasks';
 // control the delay to simulate a network request
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
-// get tasks
-export const getTasks = async (): Promise<Task[]> => {
-  await delay(500);
-  const { data } = await axios.get(API_URL);
-  return data;
+export const getTasksByColumn = async (columnId: string, pageParam: number): Promise<TaskPage> => {
+  const limit = 4;
+  const res = await fetch(`${API_URL}?column=${columnId}&_page=${pageParam}&_limit=${limit}`);
+  if (!res.ok) throw new Error("Failed to fetch");
+  const data: Task[] = await res.json();
+  
+  return {
+    tasks: data,
+    nextPage: data.length === limit ? pageParam + 1 : undefined,
+  };
 };
 
 // update task status
