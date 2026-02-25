@@ -28,22 +28,23 @@ A high-performance Kanban Board application built with **Next.js 15** and **TanS
 
 Follow these steps to get the project up and running locally:
 
+```bash
 ### 1. Clone the Repository
 
-`````bash
 git clone [https://github.com/ehabyanni/kanban_todo_list.git](https://github.com/ehabyanni/kanban_todo_list.git)
 cd kanban_todo_list
 
 ### 2. Install Dependencies
-````bash
+
 npm install
 
 ### 3. Start the Mock Backend
-````bash
+
 npx json-server --watch db.json --port 4000
 
 ### 4. Start the Development Server
-````bash
+
+
 npm run dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-`````
+```
